@@ -1,9 +1,10 @@
 import { StyleSheet, Text, View, Button } from "react-native";
 import { router } from "expo-router";
+import { fontFamily } from "@/theme/fontFamily";
 export default function Target() {
   return (
     <View style={styles.container}>
-      <Text>Expo Router Target!</Text>
+      <Text style={{ fontFamily: fontFamily.bold }}>Expo Router Target!</Text>
       <Button title="Voltar" onPress={() => router.back()} />
     </View>
   );
