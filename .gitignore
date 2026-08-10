@@ -9,6 +9,10 @@ dist/
 web-build/
 expo-env.d.ts
 
+# generated native folders
+/ios
+/android
+
 # Native
 *.orig.*
 *.jks
@@ -34,3 +38,7 @@ yarn-error.*
 
 # typescript
 *.tsbuildinfo
+
+# generated native folders
+/ios
+/android
