@@ -1,10 +1,14 @@
 import { StyleSheet, Text, View, Button } from "react-native";
 import { router } from "expo-router";
-import { fontFamily } from "@/theme/fontFamily";
+import { PageHeader } from "@/components/PageHeader";
 export default function Target() {
   return (
     <View style={styles.container}>
-      <Text style={{ fontFamily: fontFamily.bold }}>Expo Router Target!</Text>
+      <PageHeader
+        title="Meta"
+        subtitle="Economize para alcançar sua meta financeira"
+        rightButton={{ icon: "edit", onPress: () => {} }}
+      />
       <Button title="Voltar" onPress={() => router.back()} />
     </View>
   );
@@ -13,8 +17,6 @@ export default function Target() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
+    padding: 24,
   },
 });
