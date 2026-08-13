@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, Button } from "react-native";
-import { router } from "expo-router";
 import { PageHeader } from "@/components/PageHeader";
+import { Input } from "@/components/Input";
 export default function Target() {
   return (
     <View style={styles.container}>
@@ -9,7 +9,14 @@ export default function Target() {
         subtitle="Economize para alcançar sua meta financeira"
         rightButton={{ icon: "edit", onPress: () => {} }}
       />
-      <Button title="Voltar" onPress={() => router.back()} />
+
+      <View style={{ marginTop: 32, gap: 24 }}>
+        <Input
+          label="Nome da meta"
+          placeholder="Ex: Viagem para praia, Apple Watch"
+        />
+        <Button title="Salvar" />
+      </View>
     </View>
   );
 }
