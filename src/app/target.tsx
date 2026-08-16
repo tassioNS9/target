@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View, Button } from "react-native";
 import { PageHeader } from "@/components/PageHeader";
 import { Input } from "@/components/Input";
+import { CurrencyInput } from "@/components/CurrencyInput";
 export default function Target() {
   return (
     <View style={styles.container}>
@@ -15,6 +16,8 @@ export default function Target() {
           label="Nome da meta"
           placeholder="Ex: Viagem para praia, Apple Watch"
         />
+
+        <CurrencyInput label="Valor alvo" value={0} />
         <Button title="Salvar" />
       </View>
     </View>
