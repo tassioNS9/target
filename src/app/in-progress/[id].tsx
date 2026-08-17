@@ -4,8 +4,9 @@ import { PageHeader } from "@/components/PageHeader";
 import { List } from "@/components/List";
 import { Transaction, TransactionProps } from "@/components/Transaction";
 import { Progress } from "@/components/Progress";
-
+import { Button } from "@/components/Button";
 import { TransactionTypes } from "@/utils/TransactionTypes";
+import { router } from "expo-router";
 
 const details = {
   current: "R$ 1.000,00",
@@ -46,6 +47,12 @@ export default function InProgress() {
         renderItem={({ item }) => (
           <Transaction data={item} onRemove={() => {}} />
         )}
+        emptyMessage="Nenhuma Transação. Toque em nova transação"
+      />
+
+      <Button
+        title="Nova Transação"
+        onPress={() => router.navigate(`/transaction/${id}`)}
       />
     </View>
   );
