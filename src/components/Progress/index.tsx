@@ -28,7 +28,6 @@ export function Progress({ data }: Props) {
           style={[styles.currentProgress, { width: `${data.percentage}%` }]}
         />
       </View>
-      <Text style={styles.percentage}>{data.percentage}</Text>
     </View>
   );
 }
