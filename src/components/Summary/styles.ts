@@ -12,8 +12,8 @@ export const styles = StyleSheet.create({
     alignItems: "center",
   },
   label: {
-    fontSize: 10,
-    color: colors.blue[300],
+    fontSize: 12,
+    color: colors.white,
     fontFamily: fontFamily.regular,
   },
   value: {
