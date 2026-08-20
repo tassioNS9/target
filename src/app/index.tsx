@@ -1,39 +1,38 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { HomeHeader } from "@/components/HomeHeader";
 import { Target } from "@/components/Target";
 import { List } from "@/components/List";
 import { Button } from "@/components/Button";
 import { router } from "expo-router";
+import { useTargetDatabase } from "@/database/useTargetDatabase";
+import { useFocusEffect } from "expo-router";
+import { useCallback, useState } from "react";
+
 export default function Index() {
+  const targetDatabase = useTargetDatabase();
+  const [targetData, setTargetData] = useState<any[]>([]);
+
+  async function fetchTargets() {
+    try {
+      const response = await targetDatabase.listBySavedValue();
+      console.log(response);
+      setTargetData(response);
+    } catch (error) {
+      console.error(error);
+    }
+  }
   const sumaryData = {
     input: { label: "Entradas", value: "R$ 6.148,00" },
     output: { label: "Saídas", value: "R$ 1.500,00" },
     total: "R$ 2.680,00",
   };
 
-  const targetData = [
-    {
-      id: "1",
-      name: "Comprar uma cadeira ergonômica",
-      percentage: "75%",
-      current: "R$ 900,00",
-      target: "R$ 1200,00",
-    },
-    {
-      id: "2",
-      name: "Apple Watch Series 9",
-      percentage: "55%",
-      current: "R$ 580,00",
-      target: "R$ 1790,00",
-    },
-    {
-      id: "3",
-      name: "Fazer uma viagem para o Rio",
-      percentage: "35%",
-      current: "R$ 1380,00",
-      target: "R$ 2790,00",
-    },
-  ];
+  useFocusEffect(
+    useCallback(() => {
+      fetchTargets();
+    }, []),
+  );
+
   return (
     <View style={styles.container}>
       <HomeHeader data={sumaryData} />
