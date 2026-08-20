@@ -23,9 +23,11 @@ export default function Target() {
     setIsProcessing(true);
 
     if (params.id) {
+      console.log("Atualizando meta existente com ID:", params.id);
       // Lógica para atualizar a meta existente
     } else {
       // Lógica para criar uma nova meta
+      create();
     }
   }
 
@@ -34,7 +36,7 @@ export default function Target() {
       await targetDatabase.create({ name, amount });
       Alert.alert("Nova Meta", "Meta criada com sucesso!", [
         {
-          text: "OK",
+          text: "Ok",
           onPress: () => router.back(),
         },
       ]);
@@ -43,6 +45,7 @@ export default function Target() {
       Alert.alert("Erro", "Ocorreu um erro ao criar a meta.");
       setIsProcessing(false);
     }
+    setIsProcessing(false);
   }
   return (
     <View style={styles.container}>
