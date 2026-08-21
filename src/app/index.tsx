@@ -1,45 +1,69 @@
-import { StyleSheet, View } from "react-native";
+import { Alert, StyleSheet, View } from "react-native";
 import { HomeHeader } from "@/components/HomeHeader";
-import { Target } from "@/components/Target";
+import { Target, TargetProps } from "@/components/Target";
 import { List } from "@/components/List";
 import { Button } from "@/components/Button";
 import { router } from "expo-router";
 import { useTargetDatabase } from "@/database/useTargetDatabase";
 import { useFocusEffect } from "expo-router";
 import { useCallback, useState } from "react";
+import { Loading } from "@/components/Loading";
+import { numberToCurrency } from "@/utils/NumberToCurrecy";
+
+const summary = {
+  total: "R$ 2.680,00",
+  input: { label: "Entradas", value: "R$ 6.184,90" },
+  output: { label: "Saídas", value: "-R$ 883,65" },
+};
 
 export default function Index() {
   const targetDatabase = useTargetDatabase();
-  const [targetData, setTargetData] = useState<any[]>([]);
+  const [targets, setTargets] = useState<TargetProps[]>([]);
+  const [isFetching, setIsFetching] = useState(true);
 
-  async function fetchTargets() {
+  async function fetchTargets(): Promise<TargetProps[]> {
     try {
       const response = await targetDatabase.listBySavedValue();
-      console.log(response);
-      setTargetData(response);
+      return response.map((item) => ({
+        id: String(item.id),
+        name: item.name,
+        current: numberToCurrency(item.current),
+        percentage: item.percentage.toFixed(0) + "%",
+        target: numberToCurrency(item.amount),
+      }));
     } catch (error) {
-      console.error(error);
+      Alert.alert("Erro", "Não foi possível carregar as metas.");
+      console.log(error);
+      return [];
     }
   }
-  const sumaryData = {
-    input: { label: "Entradas", value: "R$ 6.148,00" },
-    output: { label: "Saídas", value: "R$ 1.500,00" },
-    total: "R$ 2.680,00",
-  };
+
+  async function fetchData() {
+    const targetDataPromise = fetchTargets();
+
+    const [targetData] = await Promise.all([targetDataPromise]);
+
+    setTargets(targetData);
+    setIsFetching(false);
+  }
 
   useFocusEffect(
     useCallback(() => {
-      fetchTargets();
+      fetchData();
     }, []),
   );
 
+  if (isFetching) {
+    return <Loading />;
+  }
+
   return (
     <View style={styles.container}>
-      <HomeHeader data={sumaryData} />
+      <HomeHeader data={summary} />
 
       <List
         title="Metas"
-        data={targetData}
+        data={targets}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <Target
