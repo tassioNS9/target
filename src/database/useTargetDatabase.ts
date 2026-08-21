@@ -5,6 +5,10 @@ export type TargetCreate = {
   amount: number;
 };
 
+export type TargetUpdate = TargetCreate & {
+  id: number;
+};
+
 export type TargetResponse = {
   id: number;
   name: string;
@@ -62,5 +66,17 @@ export function useTargetDatabase() {
       `);
   }
 
-  return { create, listBySavedValue, getById };
+  function update(data: TargetUpdate) {
+    const statement = database.prepareSync(
+      "UPDATE targets SET name = $name, amount = $amount, updated_at = CURRENT_TIMESTAMP WHERE id = $id",
+    );
+
+    statement.executeSync({
+      $id: data.id,
+      $name: data.name,
+      $amount: data.amount,
+    });
+  }
+
+  return { create, listBySavedValue, getById, update };
 }
